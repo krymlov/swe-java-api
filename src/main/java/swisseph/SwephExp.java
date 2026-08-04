@@ -15,7 +15,7 @@ package swisseph;
  * @version 2.10
  */
 public class SwephExp {
-	public static final String SWISSEPH_LIBRARY_NAME = "swe-2.10.03j3d";
+	public static final String SWISSEPH_LIBRARY_NAME = "swe-2.10.03j7d";
     protected static boolean sweLibraryLoaded;
 
     protected SwephExp() {
@@ -364,4 +364,49 @@ public class SwephExp {
     public static native double swe_mooncross_node_ut(double jd_ut, int flag, double[] xlon, double[] xlat, StringBuilder serr);
     public static native int swe_helio_cross(int ipl, double x2cross, double jd_et, int iflag, int dir, double[] jd_cross, StringBuilder serr);
     public static native int swe_helio_cross_ut(int ipl, double x2cross, double jd_ut, int iflag, int dir, double[] jd_cross, StringBuilder serr);
+
+    /*******************************************************
+     * other functions from swephlib.c;
+     * they are not needed for Swiss Ephemeris,
+     * but may be useful to former Placalc users.
+     *
+     * a centisec (CSEC) is an int32 holding 1/100 of an arc second
+     * (or of a second of time), so it maps onto a Java int.
+     ********************************************************/
+
+    /* normalize argument into interval [0..DEG360] */
+    public static native /*centisec*/ int swe_csnorm(/*centisec*/ int p);
+
+    /* distance in centisecs p1 - p2 normalized to [0..360[ */
+    public static native /*centisec*/ int swe_difcsn(/*centisec*/ int p1, /*centisec*/ int p2);
+
+    public static native double swe_difdegn(double p1, double p2);
+
+    /* distance in centisecs p1 - p2 normalized to [-180..180[ */
+    public static native /*centisec*/ int swe_difcs2n(/*centisec*/ int p1, /*centisec*/ int p2);
+
+    public static native double swe_difdeg2n(double p1, double p2);
+
+    public static native double swe_difrad2n(double p1, double p2);
+
+    /* round second, but at 29.5959 always down */
+    public static native /*centisec*/ int swe_csroundsec(/*centisec*/ int x);
+
+    /* double to int32 with rounding, no overflow check */
+    public static native int swe_d2l(double x);
+
+    /* monday = 0, ... sunday = 6 */
+    public static native int swe_day_of_week(double jd);
+
+    /* centiseconds of time -> "hh:mm:ss"; sep is the separator character,
+     * suppressZero cuts off ":ss" when the seconds are zero */
+    public static native String swe_cs2timestr(/*CSEC*/ int t, char sep, boolean suppressZero);
+
+    /* centiseconds of arc -> "dddPmm'ss"; pchar/mchar are the direction
+     * characters used for a positive/negative value, e.g. 'E' and 'W' */
+    public static native String swe_cs2lonlatstr(/*CSEC*/ int t, char pchar, char mchar);
+
+    /* centiseconds of arc -> "dd<deg>mm'ss" within a zodiac sign (0..29 degrees);
+     * <deg> is the ODEGREE_STRING the native library was built with */
+    public static native String swe_cs2degstr(/*CSEC*/ int t);
 }
