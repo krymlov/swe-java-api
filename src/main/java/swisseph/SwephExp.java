@@ -15,7 +15,7 @@ package swisseph;
  * @version 2.10
  */
 public class SwephExp {
-	public static final String SWISSEPH_LIBRARY_NAME = "swe-2.10.03j7d";
+	public static final String SWISSEPH_LIBRARY_NAME = "swe-2.10.03j6f";
     protected static boolean sweLibraryLoaded;
 
     protected SwephExp() {
