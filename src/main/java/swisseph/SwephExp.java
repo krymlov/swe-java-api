@@ -73,6 +73,13 @@ public class SwephExp {
 
     public static native String swe_version();
 
+    /**
+     * The JPL ephemeris number (DE) read from the header of the planetary file in use, or
+     * {@code SE_DE_NUMBER} (431) while no planetary file has been opened yet. The sepl_*.se1
+     * files shipped with swisseph-2026 report 441.
+     */
+    public static native int swe_get_denum();
+
     public static native String swe_get_library_path();
 
     /* planets, moon, nodes etc. */

@@ -15,7 +15,7 @@ import org.junit.jupiter.api.TestMethodOrder;
  * at the ephemeris files, then leaves a handful of constants and a couple of tiny helpers that
  * the rest of the suite builds on.
  * <p>
- * This project declares the 106 native methods only - there is no {@code SweConst}, no
+ * This project declares the 107 native methods only - there is no {@code SweConst}, no
  * {@code ISwissEph}, nothing but the JNI boundary. So the constants below are read directly
  * off {@code swephexp.h} rather than imported, and are kept to the handful the tests actually
  * need.

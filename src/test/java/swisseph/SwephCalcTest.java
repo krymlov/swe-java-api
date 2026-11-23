@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
@@ -234,6 +235,27 @@ class SwephCalcTest extends ASwephTest {
         assertTrue(tfstart[0] < J2000 && tfend[0] > J2000,
                 "the file's range should cover J2000: " + tfstart[0] + ".." + tfend[0]);
         assertTrue(denum[0] > 0, "a DE number should be reported: " + denum[0]);
+    }
+
+    @Test
+    void swe_get_denum_reportsTheDeNumberOfTheOpenPlanetFile() {
+        calc(J2000, SE_MARS, SEFLG_SWIEPH);   // make sure a planet file is open
+
+        int[] denum = new int[1];
+        SwephExp.swe_get_current_file_data(0, new double[1], new double[1], denum);
+
+        // the shipped sepl_*.se1 say "based on JPL Ephemeris DE441" (Astrodienst, 2026-05-26),
+        // so this is 441 today - not SE_DE_NUMBER, which only applies before a file is open
+        assertTrue(denum[0] > 0, "a DE number should be reported: " + denum[0]);
+        assertEquals(denum[0], SwephExp.swe_get_denum(), "the same file header, read two ways");
+    }
+
+    /** before 2026-11-23 the bridge passed null straight to strlen() and took the VM down */
+    @Test
+    void swe_set_jpl_file_rejectsNullWithNullPointerException() {
+        assertThrows(NullPointerException.class, () -> SwephExp.swe_set_jpl_file(null));
+        double[] xx = calc(J2000, SE_SUN, SEFLG_SWIEPH);
+        assertTrue(xx[0] >= 0. && xx[0] < 360., "the library must be unaffected");
     }
 
     /** no real .jpl file is shipped here; the call itself must not throw or corrupt state */

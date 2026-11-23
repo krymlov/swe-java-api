@@ -82,10 +82,10 @@ class SwephApiCoverageTest {
 
     @Test
     void declaredNativeMethodCountMatchesSwephexpH() {
-        // swephexp.h declares 107 ext_def entries; swe_set_timeout is commented out there
-        // and has no symbol to bind to, so the bridge wraps the remaining 106 - see
+        // swephexp.h declares 108 ext_def entries; swe_set_timeout is commented out there
+        // and has no symbol to bind to, so the bridge wraps the remaining 107 - see
         // CLAUDE.md's "API coverage" section
-        assertTrue(declaredNativeMethodNames().size() == 106,
-                "expected 106 native methods, found " + declaredNativeMethodNames().size());
+        assertTrue(declaredNativeMethodNames().size() == 107,
+                "expected 107 native methods, found " + declaredNativeMethodNames().size());
     }
 }
